@@ -9,7 +9,6 @@ from operator import index
 import re
 from turtle import st
 from wsgiref.handlers import read_environ
-# Due to my programming skils limitations, this program consists of three lists.
 stock = [] # this list is renposible for storing all the content extracted by csvreader
 tstock = [] # this list is a container to be used by stock list -- not in use
 tempList = [] # this list is responsible for formatting purposes  -- not in use
@@ -31,16 +30,6 @@ with open('invoice.csv', newline='') as csvfile:
                 tstock.append(i)
 
 
-#     dialect = csv.Sniffer().sniff(csvfile.read(1024))
-#     csvfile.seek(0)
-#     reader = csv.reader(csvfile, dialect=dialect, delimiter='|', quoting=csv.QUOTE_MINIMAL)
-#     dialect.skipinitialspace = True
-    
-#     for row in reader:
-#         stock.append(row) # extracts all of the csv content into the a list
-
-print("*"*200)
-print("*"*200)
 stock = list(filter(None, stock)) # This simply removes any empty strings in the list
 for i in stock:
         print("Index:", stock.index(i)," ", i)
@@ -48,28 +37,17 @@ tstock = list(filter(None, tstock))
 for i in tstock:
         print("Index:", tstock.index(i)," ", i)
 
-print("*"*200)
-print("*"*200)
-stock = stock[22:-1]
 
-# for product in stock:
-#     for i in product:
-#         newStock.append(i) #converts all the "raw database"  into listsc
-
-
-# for product in newStock:
-#         tempList.append(re.sub(",,",'', product)) # gets the converted list and removes "commas"
-
-
+stock = stock[22:-1] # Deletes unecessary data from the csv variable, such as address.
 
 
 def searchForValue(itemName, targetList, updateToList):
         """
+        This function is responsible searching for a value in a specified list \n
         This function takes as parameters:\n
         1-the name of the item to be queried,\n
         2-a list to be searched,\n
         3-the list to append the fetched item.\n
-
         """
         # for every index in the target list
         for item in range(len(targetList)):
@@ -81,14 +59,16 @@ def searchForValue(itemName, targetList, updateToList):
                         updateToList.append(i)
                         break
 
+
 def updateDictionary(targetDictionary, key, value, index ):
         """
         This fuction takes as parameters:
-        1- The Dictionary to update
-        2- The key of the dictionary to be updated
-        3- The new value you, function expects a list as value
-        4- The index of the list
-        # For further updates, must convert this function to update any kind of data structures.
+        1- The Dictionary to update \n
+        2- The key of the dictionary to be updated \n
+        3- The new value you, function expects a list as value \n
+        4- The index of the list \n
+        This function should only be used to update dictionaries.
+        #TO implement: convert this function to update any kind of data structures.
         """
         # targetDictionary.append({f'{key}':[value[index]]})
         targetDictionary[key].append(value[index])
@@ -106,8 +86,7 @@ for row in stock:
                 else:
                         continue
 
-# print(" [SYSTEM]: STOCK >>> \n", stock ,"\n")
-print("----------"*10,)
+
 print(" [SYSTEM]: stockCOUNT >>> \n", stockCount , "\n")
 
 

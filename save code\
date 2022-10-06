@@ -1,4 +1,0 @@
-# def getItem(itemName, fetchFromList, index, pushToList):
-#         if itemName in fetchFromList[index]:
-#                 item = fetchFromList[index][0:20] # the slice reduces the list to be searched
-#                 pushToList.append(item)
