@@ -5,15 +5,11 @@
 # This program takes a csv invoice and extracts information from the file.
 # Key features to add are to allow the application to push content into a database or Json file
 import csv
-from operator import index
-import re
-from turtle import st
-from wsgiref.handlers import read_environ
-stock = [] # this list is renposible for storing all the content extracted by csvreader
-tstock = [] # this list is a container to be used by stock list -- not in use
-tempList = [] # this list is responsible for formatting purposes  -- not in use
-stockCount = [] # this list is the final holder of items.
-myDictionary = {'Item Name:' : [],
+rawCsvList = [] # this list is renposible for storing all the content extracted by csvreader
+extractedCsv = [] # this list is a container to be used by rawCsvList list -- not in use
+quantityList = [] # Quantity of items extracted from the csv File.
+itemsList = [] # Items extracted from the csv File.
+DictionaryDB = {'Item Name:' : [],
                 'Quantity:' : []}
 PRODUCTS = ['POTATO MIDS', 'MUSHROOM CUP', 'CAULIFLOWER', 'GARLIC PEELED X 1kg', 'LETTUCE CRUNCHY MIX X 250 GM', 'LETTUCE EUROPA SALAD X 500G',
 'WASHED BABY MIXED LEAF', 'CORIANDER LOOSE X 100G', 'BROCCOLI','CARROT', 'PEPPER GREEN', 'PEPPER RED', 'PEPPER YELLOW']
@@ -24,21 +20,15 @@ with open('invoice.csv', newline='') as csvfile:
 
 
     for row in csvReader:
-        
+
         for i in row:
-                stock.append(i)
-                tstock.append(i)
+                rawCsvList.append(i)
+                extractedCsv.append(i)
 
-
-stock = list(filter(None, stock)) # This simply removes any empty strings in the list
-for i in stock:
-        print("Index:", stock.index(i)," ", i)
-tstock = list(filter(None, tstock))
-for i in tstock:
-        print("Index:", tstock.index(i)," ", i)
-
-
-stock = stock[22:-1] # Deletes unecessary data from the csv variable, such as address.
+# Formatting of the lists
+rawCsvList = list(filter(None, rawCsvList)) # This simply removes any empty strings in the list
+extractedCsv = list(filter(None, extractedCsv))# This simply removes any empty strings in the list
+rawCsvList = rawCsvList[22:-1] # Deletes unecessary data from the csv variable, such as address.
 
 
 def searchForValue(itemName, targetList, updateToList):
@@ -71,39 +61,41 @@ def updateDictionary(targetDictionary, key, value, index ):
         #TO implement: convert this function to update any kind of data structures.
         """
         # targetDictionary.append({f'{key}':[value[index]]})
+        #DictionaryDB.update({'Item Name:':[itemsList[0]]}) // For future reference, example.
         targetDictionary[key].append(value[index])
-        #myDictionary.update({'Item Name:':[stockCount[0]]}) // For future reference, example.
+        
 
-# This nested for loops, compares the Products list with the current stock list, any match is added to a new list
-for row in stock:
+# This nested for loops, compares the Products list with the current rawCsvList list, any match is added to a new list
+for row in rawCsvList:
         for item in PRODUCTS:
                 if item in row:            
-                        searchForValue(item, stock, stockCount) # function that adds the data to a final list
+                        searchForValue(item, rawCsvList, itemsList) # function that adds the data to a final list
                         index = PRODUCTS.index(item)
-                        # for values in myDictionary['Item Name:']:
-                        #         myDictionary['Item Name:']  = item
                         break
                 else:
                         continue
 
-
-print(" [SYSTEM]: stockCOUNT >>> \n", stockCount , "\n")
-
-
-for item in tstock:
+# This loop uses the items in PRODUCTS list and compares them to the csv rawCsvList.
+# If there is a match it finds the index of such item and sends it to the quantityList.
+for item in extractedCsv:
         if item in PRODUCTS:
-                index = tstock.index(item)
+                index = extractedCsv.index(item)
                 index -= 2 # off set the index of the list
-                tempList.append(tstock[index])
-print(tempList)
+                quantityList.append(extractedCsv[index])
+print(quantityList)
+
+print(" [SYSTEM]: itemsList >>> \n", itemsList , "\n")
+
+
 
 
 # currently manually adding items to a dictionary
 #                       Further updates: 
-# TO consolidate them into a list or tuple for counting the stock.
-updateDictionary(myDictionary, 'Item Name:', stockCount, 0)
-updateDictionary(myDictionary, 'Quantity:', tempList, 0)
+# To consolidate them into a list or tuple for counting the rawCsvList.
+updateDictionary(DictionaryDB, 'Item Name:', itemsList, 0)
+updateDictionary(DictionaryDB, 'Quantity:', quantityList, 0)
 
 
-print(" [SYSTEM]: myDict >>> \n", myDictionary, "\n" )
+print(" [SYSTEM]: myDict >>> \n", DictionaryDB, "\n" )
+
 
