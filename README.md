@@ -1,6 +1,7 @@
 ***Invoicer***
 
-***Description***
+***Description*** \n
+
 A Command Line interface which automates the extraction of data from  CSV files.
 
 ***Prerequisites:***
