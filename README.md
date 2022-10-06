@@ -1,14 +1,16 @@
 ***Invoicer***
 
-***Description*** \n
+***Description*** 
 
 A Command Line interface which automates the extraction of data from  CSV files.
 
 ***Prerequisites:***
-csv modules
+
+  csv modules
   (sql module) - Currently not implemented.
 
 ***Installation:***
+
   For later releases, there will be a feature to select the file through the OS file systems.
   Make sure the file is within the same location as the module. Manually locate the csv file with open('invoice.csv') as csvfile:
   PRODUCTS list is currently holding the items to be searched in the csv file.
