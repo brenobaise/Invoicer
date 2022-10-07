@@ -4,12 +4,8 @@
 
 # This program takes a csv invoice and extracts information from the file.
 # Key features to add are to allow the application to push content into a database or Json file
+
 import csv
-from operator import index
-import re
-from turtle import st
-from wsgiref.handlers import read_environ
-# Due to my programming skils limitations, this program consists of three lists.
 stock = [] # this list is renposible for storing all the content extracted by csvreader
 tstock = [] # this list is a container to be used by stock list -- not in use
 tempList = [] # this list is responsible for formatting purposes  -- not in use
@@ -31,14 +27,6 @@ with open('invoice.csv', newline='') as csvfile:
                 tstock.append(i)
 
 
-#     dialect = csv.Sniffer().sniff(csvfile.read(1024))
-#     csvfile.seek(0)
-#     reader = csv.reader(csvfile, dialect=dialect, delimiter='|', quoting=csv.QUOTE_MINIMAL)
-#     dialect.skipinitialspace = True
-    
-#     for row in reader:
-#         stock.append(row) # extracts all of the csv content into the a list
-
 print("*"*200)
 print("*"*200)
 stock = list(filter(None, stock)) # This simply removes any empty strings in the list
@@ -51,17 +39,6 @@ for i in tstock:
 print("*"*200)
 print("*"*200)
 stock = stock[22:-1]
-
-# for product in stock:
-#     for i in product:
-#         newStock.append(i) #converts all the "raw database"  into listsc
-
-
-# for product in newStock:
-#         tempList.append(re.sub(",,",'', product)) # gets the converted list and removes "commas"
-
-
-
 
 def searchForValue(itemName, targetList, updateToList):
         """
